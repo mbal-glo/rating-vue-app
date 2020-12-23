@@ -64,7 +64,7 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
+  // emits: ['survey-submit'],
   methods: {
     async submitSurvey() {
       if (this.enteredName === '' || !this.chosenRating) {
@@ -73,12 +73,16 @@ export default {
       }
       this.invalidInput = false;
 
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
 
       // const response = await axios.post('/api/results', { data: [this.enteredName, this.chosenRating] });
+      // const response = await axios.post('api/results', {
+      //    name: this.enteredName,
+      //    rating: this.enteredRating,
+      // })
       // console.log('response post')
       // console.log(response.config.data);
       await fetch('/api/results', {

@@ -3,7 +3,9 @@
     <base-card>
       <h2>Submitted Experiences</h2>
       <div>
-        <base-button>Load Submitted Experiences</base-button>
+        <base-button @click="loadExperiencies"
+          >Load Submitted Experiences</base-button
+        >
       </div>
       <ul>
         <survey-result
@@ -21,9 +23,28 @@
 import SurveyResult from './SurveyResult.vue';
 
 export default {
-  props: ['results'],
   components: {
     SurveyResult,
+  },
+  data() {
+    return {
+      results: [],
+    };
+  },
+  methods: {
+    async loadExperiencies() {
+      const resp = await fetch('/api/results');
+      //const results = await resp.json();
+      //console.log(results);
+      if (resp.ok) {
+        const data = await resp.json();
+        for (let i = 0; i < data.length; i++) {
+          this.results.push(data[i]);
+        }
+        //console.log('results')
+        //console.log(this.results);
+      }
+    },
   },
 };
 </script>
