@@ -7,7 +7,8 @@
           >Load Submitted Experiences</base-button
         >
       </div>
-      <ul>
+      <p v-if="isLoading">Loading...</p>
+      <ul v-else>
         <survey-result
           v-for="result in results"
           :key="result.id"
@@ -29,21 +30,27 @@ export default {
   data() {
     return {
       results: [],
+      isLoading: false,
     };
   },
   methods: {
     async loadExperiencies() {
+      this.isLoading = true;
       const resp = await fetch('/api/results');
       //const results = await resp.json();
       //console.log(results);
       if (resp.ok) {
         const data = await resp.json();
+        this.isLoading = false;
         for (let i = 0; i < data.length; i++) {
           this.results.push(data[i]);
         }
         //console.log('results')
         //console.log(this.results);
       }
+    },
+    mounted() {
+      this.loadExperiencies();
     },
   },
 };
