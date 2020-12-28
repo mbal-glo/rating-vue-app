@@ -8,6 +8,10 @@
         >
       </div>
       <p v-if="isLoading">Loading...</p>
+      <p v-else-if="!isLoading && error">{{ error }}</p>
+      <p v-else-if="!isLoading && (!results || results.length === 0)">
+        No stored experiences found. Please add some survey results first.
+      </p>
       <ul v-else>
         <survey-result
           v-for="result in results"
@@ -31,22 +35,32 @@ export default {
     return {
       results: [],
       isLoading: false,
+      error: null,
     };
   },
   methods: {
     async loadExperiencies() {
       this.isLoading = true;
-      const resp = await fetch('/api/results');
-      //const results = await resp.json();
-      //console.log(results);
-      if (resp.ok) {
-        const data = await resp.json();
-        this.isLoading = false;
-        for (let i = 0; i < data.length; i++) {
-          this.results.push(data[i]);
+      this.error = null;
+      try {
+        const resp = await fetch('/api/results'); //
+        //const results = await resp.json();
+        //console.log(results);
+        if (resp.ok) {
+          const data = await resp.json();
+          this.isLoading = false;
+          for (let i = 0; i < data.length; i++) {
+            this.results.push(data[i]);
+          }
+          //console.log('results')
+          //console.log(this.results);
         }
-        //console.log('results')
-        //console.log(this.results);
+      } catch (error) {
+        // console.log('error')
+        console.log(error);
+        this.isLoading = false;
+        this.error = 'Failed to fetch data, please try again later';
+        console.log(this.error);
       }
     },
     mounted() {
