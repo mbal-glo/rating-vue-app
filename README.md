@@ -1,5 +1,5 @@
 # Rating - Vue App
-VueJS 3 app for rating learning experiences. The ratings get stored in a mock server created with Mirage JS.
+Vue.JS 3 app for rating learning experiences. The ratings get stored in a mock server created with Mirage JS.
 
 ## Project setup
 
